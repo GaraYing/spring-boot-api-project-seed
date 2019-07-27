@@ -102,6 +102,17 @@
             <version>1.3.5</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <!--<version>1.18.8</version>-->
+        </dependency>
+
+        <!--<dependency>
+            <groupId>com.gara</groupId>
+            <artifactId>spring-boot-jdbc-demo</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>-->
     </dependencies>
 
     <build>

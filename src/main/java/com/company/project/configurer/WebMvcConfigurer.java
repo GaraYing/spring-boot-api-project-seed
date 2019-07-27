@@ -19,11 +19,16 @@ import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.company.project.core.Result;
 import com.company.project.core.ResultCode;
 import com.company.project.core.ServiceException;
+import com.company.project.interceptor.ParamInterceptor;
+import com.company.project.interceptor.ResultInterceptor;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.plugin.Interceptor;
+import org.jboss.logging.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -104,6 +109,18 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
         //registry.addMapping("/**");
     }
 
+    @Bean
+    public ParamInterceptor paramInterceptor(){
+        ParamInterceptor paramInterceptor = new ParamInterceptor();
+        return paramInterceptor;
+    }
+
+    @Bean
+    public ResultInterceptor resultInterceptor(){
+        ResultInterceptor resultInterceptor = new ResultInterceptor();
+        return resultInterceptor;
+    }
+
     //添加拦截器
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -128,6 +145,8 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
                 }
             });
         }
+        registry.addInterceptor(paramInterceptor());
+        registry.addInterceptor(resultInterceptor());
     }
 
     private void responseResult(HttpServletResponse response, Result result) {
